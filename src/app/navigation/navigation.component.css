@@ -1,0 +1,27 @@
+mat-toolbar {
+    font-size: 0.9rem;
+}
+.navigation-items {
+    width: 100%;
+}
+
+.navigation-items li {
+    list-style: none;
+}
+
+.navigation-items li a {
+    display: inline-block;
+    text-decoration: none;
+    color: white
+}
+
+.navigation-items li a:hover,
+.navigation-items li a:active {
+    color: gold;
+}
+
+.navigation-items li a span {
+    display: inline-block;
+    padding-left: 0.2rem;
+    padding-right: 1rem;
+}
