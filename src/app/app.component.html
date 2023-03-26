@@ -1,1 +1,9 @@
-<app-navigation></app-navigation>
+<mat-sidenav-container>
+    <mat-sidenav #sideNav>
+        <app-side-nav-menu  (sideNavClick)="sideNav.close()"></app-side-nav-menu>
+    </mat-sidenav>
+   <mat-sidenav-content>
+    <app-navigation (showSideNav)="sideNav.toggle()"></app-navigation>
+     <router-outlet></router-outlet>
+   </mat-sidenav-content>
+</mat-sidenav-container>

@@ -9,12 +9,20 @@ import { NavigationComponent } from './navigation/navigation.component';
 import {MatToolbarModule} from '@angular/material/toolbar';
 import {MatButtonModule} from '@angular/material/button';
 import {MatIconModule} from '@angular/material/icon';
-import { FlexLayoutModule } from '@angular/flex-layout';
+import {MatListModule} from '@angular/material/list';
 
+import { FlexLayoutModule } from '@angular/flex-layout';
+import { SideNavMenuComponent } from './side-nav-menu/side-nav-menu.component';
+import { VideocaptureComponent } from './videocapture/videocapture.component';
+import { ThumbnailComponent } from './thumbnail/thumbnail.component';
+import {MatSidenavModule} from '@angular/material/sidenav';
 @NgModule({
   declarations: [
     AppComponent,
-    NavigationComponent
+    NavigationComponent,
+    SideNavMenuComponent,
+    VideocaptureComponent,
+    ThumbnailComponent
   ],
   imports: [
     BrowserModule,
@@ -23,6 +31,8 @@ import { FlexLayoutModule } from '@angular/flex-layout';
     MatIconModule,
     FlexLayoutModule,
     MatButtonModule,
+    MatListModule,
+    MatSidenavModule,
     ServiceWorkerModule.register('ngsw-worker.js', {
       enabled: !isDevMode(),
       // Register the ServiceWorker as soon as the application is stable

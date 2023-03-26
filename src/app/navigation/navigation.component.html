@@ -1,11 +1,11 @@
 <mat-toolbar color="primary">
-    <button mat-icon-button flex="1"  fxHide.gt-md>
+    <button mat-icon-button flex="1"  fxHide.gt-md (click)="onMenuClick()">
         <mat-icon >menu</mat-icon>
     </button>
     <span>Video Capture</span>
     <ul fxLayout fxLayoutAlign="end" fxLayoutGap="10px" class="navigation-items" fxHide.lt-md>
         <li>
-            <a fxLayout fxLayoutAlign="center center" >
+            <a fxLayout fxLayoutAlign="center center" routerLink="/">
 
                 <mat-icon>theaters</mat-icon>
                 <span>Capture Video</span>
@@ -13,7 +13,7 @@
 
         </li>
         <li>
-            <a fxLayout fxLayoutAlign="center center" >
+            <a fxLayout fxLayoutAlign="center center" routerLink="/thumbnails">
                 <mat-icon>view_list</mat-icon><span>View Thumbnails</span></a>
         </li>
         </ul>
