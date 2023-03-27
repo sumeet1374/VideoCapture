@@ -16,6 +16,7 @@ import { SideNavMenuComponent } from './side-nav-menu/side-nav-menu.component';
 import { VideocaptureComponent } from './videocapture/videocapture.component';
 import { ThumbnailComponent } from './thumbnail/thumbnail.component';
 import {MatSidenavModule} from '@angular/material/sidenav';
+
 @NgModule({
   declarations: [
     AppComponent,

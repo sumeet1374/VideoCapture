@@ -1,8 +1,21 @@
 video {
-    height: 300px;
-    width: 300px;
+    height: 400px;
+    width: auto;
+    margin:20px;
     border-color: black;
-    border-style: solid;
+    border-style:  double;
     border-width: 1px;
-    border-color: white;
+ 
+}
+
+.showVideo {
+    display:block;
+}
+
+.hideVideo {
+    display:none
+}
+
+.videoContainer {
+    margin: 10px;
 }

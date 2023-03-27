@@ -1,10 +1,18 @@
-<div>
-    <div>
-        <video #videorecord autoplay playsInline muted>
+<div fxLayout="row " fxLayoutAlign="center start">
+    <button mat-raised-button color="primary" style="margin:4px" (click)="recordVideo()">Capture Video</button>
+</div>
+<div fxLayout="row wrap" fxLayoutAlign="center center" >
+    
+    <div class="videoContainer">
+        <video #videorecording autoplay playsInline muted >
+        </video>
+    </div>
+    <div class="videoContainer" >
+        <video #videorecorded controls >
         </video>
     </div>
     <div>
-        <button (click)="recordVideo()">Capture Video</button>
+        
     </div>
 </div>
 
