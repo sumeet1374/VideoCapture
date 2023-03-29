@@ -1,61 +1,76 @@
-import { Component, ElementRef, NgZone, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, NgZone, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { VideoServiceService } from '../video-service.service';
 
 @Component({
   selector: 'app-videocapture',
   templateUrl: './videocapture.component.html',
   styleUrls: ['./videocapture.component.css']
 })
-export class VideocaptureComponent  {
+export class VideocaptureComponent implements OnInit,OnDestroy,AfterViewInit {
   @ViewChild("videorecording")
-  videoRecording:ElementRef | undefined;
+  videoRecording: ElementRef | undefined;
 
   @ViewChild("videorecorded")
-  videoPlay:ElementRef | undefined;
+  videoPlay: ElementRef | undefined;
 
-  isRecording:Boolean = false;
+  isRecording: Boolean = false;
+  recordedChunks:any[] = [];
 
-   constructor(private zone:NgZone){
-    const supports = navigator.mediaDevices.getSupportedConstraints();
-    console.log(supports);
-   }
+  constructor(private videoService: VideoServiceService) {
 
-    async recordVideo(){
-      this.isRecording = true;
-    const recordedChunks:any[] = [];
-    
-      let compRef = this.videoRecording?.nativeElement;
-      const stream =  await navigator.mediaDevices.getUserMedia({ audio: false, video: { facingMode: 'environment' } });//this.canvas?.nativeElement.captureStream(25);
-      compRef.srcObject = stream;
-      //const options = { mimeType: "video/webm; codecs=vp9" };
-    const mediaRecorder = new MediaRecorder(stream);
+  }
+  ngAfterViewInit(): void {
+    console.log("View init done");
+  }
+  ngOnDestroy(): void {
+    this.videoService.onStreamCreated.unsubscribe();
+    this.videoService.onVideoDataAvailable.unsubscribe();
+    this.videoService.onRecordingStopped.unsubscribe();
+  }
+  ngOnInit(): void {
+    this.videoService.onStreamCreated.subscribe(this.onSteamCreated);
+    this.videoService.onVideoDataAvailable.subscribe(this.onVideoDataAvailable);
+    this.videoService.onRecordingStopped.subscribe(this.onRecordingStopped);
+  }
 
-    mediaRecorder.ondataavailable = handleDataAvailable;
-    mediaRecorder.onstop = ()=> {
-      let recordedRef = this.videoPlay?.nativeElement;
-      this.isRecording = false;
-      console.log(this.isRecording);
-      recordedRef.src = URL.createObjectURL(new Blob(recordedChunks, { type: mediaRecorder.mimeType }));
-    } ;  
-    mediaRecorder.start(1000);
-    function handleDataAvailable(event:any) {
-      console.log("data-available");
-      if (event.data.size > 0) {
-        recordedChunks.push(event.data);
-         console.log(recordedChunks);
-       
-        //sdownload();
-      } else {
-        // …
-      }
+  onSteamCreated = (value:any)=>{
+    let compRef = this.videoRecording?.nativeElement;
+    console.log(compRef);
+    compRef.srcObject = value;
+  }
+
+  onVideoDataAvailable = (event:any)=>{
+    if (event.size > 0) {
+      this.recordedChunks.push(event);
+      console.log(this.recordedChunks);
+
     }
-    
-    
-    // demo: to download after 9sec
-    setTimeout(() => {
-      console.log("stopping");
-      mediaRecorder.stop();
-      stream.getTracks().forEach(track => track.stop());
-    }, 9000);
-    ;
-   }
+  }
+
+  onRecordingStopped= (data:any)=>{
+    let recordedRef = this.videoPlay?.nativeElement;
+    this.isRecording = false;
+    console.log(this.isRecording);
+    recordedRef.src = URL.createObjectURL(new Blob(this.recordedChunks, { type: data }));
+  }
+
+
+   recordVideo() {
+    if(this.isRecording === false) {
+      this.isRecording = true;
+      this.recordedChunks = [];
+      this.videoService.startVideoRecording();
+    }
+  
+
+  }
+
+  stopRecoding(){
+    if(this.isRecording === true) {
+      this.isRecording = false;
+      this.videoService.stopVideoRecording();
+    }
+
+  }
+
 }

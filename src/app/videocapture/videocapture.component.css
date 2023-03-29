@@ -1,7 +1,8 @@
 video {
-    height: 300px;
-    width: 400px;
-    margin:20px;
+   
+    
+    min-width: 300px;
+    margin:5px;
     border-color: black;
     border-style:  double;
     border-width: 1px;
@@ -18,4 +19,6 @@ video {
 
 .videoContainer {
     margin: 10px;
+   
+   
 }
