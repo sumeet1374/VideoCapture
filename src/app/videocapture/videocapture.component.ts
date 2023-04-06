@@ -52,7 +52,6 @@ export class VideocaptureComponent implements OnInit,OnDestroy,AfterViewInit {
     this.isRecording = false;
     console.log(this.isRecording);
     console.log(data);
-    alert(data);
     recordedRef.src = data;
   }
 
