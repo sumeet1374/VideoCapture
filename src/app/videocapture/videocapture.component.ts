@@ -24,12 +24,12 @@ export class VideocaptureComponent implements OnInit,OnDestroy,AfterViewInit {
   }
   ngOnDestroy(): void {
     this.videoService.onStreamCreated.unsubscribe();
-    this.videoService.onVideoDataAvailable.unsubscribe();
+   // this.videoService.onVideoDataAvailable.unsubscribe();
     this.videoService.onRecordingStopped.unsubscribe();
   }
   ngOnInit(): void {
     this.videoService.onStreamCreated.subscribe(this.onSteamCreated);
-    this.videoService.onVideoDataAvailable.subscribe(this.onVideoDataAvailable);
+   // this.videoService.onVideoDataAvailable.subscribe(this.onVideoDataAvailable);
     this.videoService.onRecordingStopped.subscribe(this.onRecordingStopped);
   }
 
@@ -39,19 +39,19 @@ export class VideocaptureComponent implements OnInit,OnDestroy,AfterViewInit {
     compRef.srcObject = value;
   }
 
-  onVideoDataAvailable = (event:any)=>{
-    if (event.size > 0) {
-      this.recordedChunks.push(event);
-      console.log(this.recordedChunks);
+  // onVideoDataAvailable = (event:any)=>{
+  //   if (event.size > 0) {
+  //     this.recordedChunks.push(event);
+  //     console.log(this.recordedChunks);
 
-    }
-  }
+  //   }
+  // }
 
   onRecordingStopped= (data:any)=>{
     let recordedRef = this.videoPlay?.nativeElement;
     this.isRecording = false;
     console.log(this.isRecording);
-    recordedRef.src = URL.createObjectURL(new Blob(this.recordedChunks, { type: data }));
+    recordedRef.src = data;
   }
 
 

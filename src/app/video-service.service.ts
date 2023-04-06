@@ -7,11 +7,12 @@ import { from, fromEvent, Observable, Subject } from 'rxjs';
 export class VideoServiceService {
 
   private videoObservable: Observable<MediaStream> |undefined ;// = from(navigator.mediaDevices.getUserMedia({ audio: false, video: { facingMode: 'environment' } }));
-  onVideoDataAvailable: Subject<any> = new Subject<any>();
+ // onVideoDataAvailable: Subject<any> = new Subject<any>();
   onStreamCreated: Subject<any> = new Subject<any>();
   onRecordingStopped: Subject<any> = new Subject<any>();
   recorder: MediaRecorder | null = null;
   private stream:any | undefined;
+  private   recordedChunks:any[] = [];
 
   constructor() {
 
@@ -19,15 +20,18 @@ export class VideoServiceService {
 
   dataCaptured = (event: any)=> {
         if (event.data.size > 0) {
-          this.onVideoDataAvailable.next(event.data);
+          this.recordedChunks.push(event.data);
+         // this.onVideoDataAvailable.next(event.data);
         }
   }
 
   dataStopped = (event:any)=> {
-    this.onRecordingStopped.next(this.recorder?.mimeType);
+    let url = URL.createObjectURL(new Blob(this.recordedChunks, { type: this.recorder?.mimeType }));
+    this.onRecordingStopped.next(url);
   }
   // Method to Start Video Recording
   startVideoRecording() {
+    this.recordedChunks = [];
     this.videoObservable = from(navigator.mediaDevices.getUserMedia({ audio: false, video: { facingMode: 'environment' } }));
     this.videoObservable.subscribe((x) => {
       // Sending Created Strem Value
