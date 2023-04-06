@@ -51,6 +51,8 @@ export class VideocaptureComponent implements OnInit,OnDestroy,AfterViewInit {
     let recordedRef = this.videoPlay?.nativeElement;
     this.isRecording = false;
     console.log(this.isRecording);
+    console.log(data);
+    alert(data);
     recordedRef.src = data;
   }
 
