@@ -12,7 +12,7 @@ export class VideoServiceService {
   onRecordingStopped: Subject<any> = new Subject<any>();
   recorder: MediaRecorder | null = null;
   private stream:any | undefined;
-  private   recordedChunks:Blob[] = [];
+  private   recordedChunks:BlobPart[] = [];
 
   constructor() {
 
@@ -27,8 +27,7 @@ export class VideoServiceService {
 
   dataStopped = (event:any)=> {
     
-    console.log(this.recorder?.mimeType);
-    let url = URL.createObjectURL(new Blob(this.recordedChunks, { type: "video/webm" }));
+    let url = URL.createObjectURL(new Blob(this.recordedChunks));
     this.onRecordingStopped.next(url);
   }
   // Method to Start Video Recording
@@ -40,7 +39,7 @@ export class VideoServiceService {
       this.stream = x;
       this.onStreamCreated.next(x);
 
-      this.recorder = new MediaRecorder(this.stream,{ mimeType: "video/webm"});
+      this.recorder = new MediaRecorder(this.stream);
       this.recorder.ondataavailable = this.dataCaptured;
       this.recorder.onstop = this.dataStopped;
 
@@ -53,9 +52,8 @@ export class VideoServiceService {
 
   stopVideoRecording() {
     if (this.recorder != null) {
-      console.log("Stopping Recorder");
       this.recorder.stop();
-      this.stream.getTracks().forEach((x: { stop: () => any; }) => x.stop());
+     // this.stream.getTracks().forEach((x: { stop: () => any; }) => x.stop());
       this.recorder = null;
   
     }
